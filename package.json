@@ -26,6 +26,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && tsc -p tsconfig.build.json",
+    "build:demo": "npm run build && rm -rf demo-site && mkdir -p demo-site && cp -R demo/* demo-site/ && cp -R dist demo-site/dist",
     "typecheck": "tsc -p tsconfig.build.json --noEmit",
     "prepublishOnly": "npm run build",
     "demo": "npm run build && serve . -l 4173"
