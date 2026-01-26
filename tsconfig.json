@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "declaration": false,
+    "skipLibCheck": true,
+    "lib": ["ES2020", "DOM"],
+    "types": [],
+    "noEmit": true
+  },
+  "include": ["src"]
+}

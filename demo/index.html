@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>daisy-dual-range</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15/dist/nouislider.min.css" />
+    <link rel="stylesheet" href="../dist/style.css" />
+    
+    <style>
+      .card { border-radius: 8px; }
+      .btn { border-radius: 6px; }
+      .input, .select { border-radius: 6px; }
+      .badge { border-radius: 4px; }
+      body { font-feature-settings: "kern" 1; -webkit-font-smoothing: antialiased; }
+      
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+      
+      .theme-tag[data-active="true"] {
+        background-color: hsl(var(--p) / 0.1);
+        border-color: hsl(var(--p));
+        color: hsl(var(--p));
+        font-weight: 600;
+      }
+      
+      .theme-tag:hover:not([data-active="true"]) {
+        background-color: hsl(var(--bc) / 0.08);
+        border-color: hsl(var(--bc) / 0.3);
+        color: hsl(var(--bc) / 0.9);
+      }
+      
+      .overflow-x-auto {
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+      }
+      
+      .touch-manipulation {
+        touch-action: manipulation;
+      }
+      
+      .fade-edges {
+        position: relative;
+      }
+      
+      .fade-edges::before,
+      .fade-edges::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 1.5rem;
+        pointer-events: none;
+        z-index: 10;
+      }
+      
+      .fade-edges::before {
+        left: -2rem;
+        background: linear-gradient(to right, var(--fallback-b2, oklch(var(--b2) / 1)), transparent);
+      }
+      
+      .fade-edges::after {
+        right: -2rem;
+        background: linear-gradient(to left, var(--fallback-b2, oklch(var(--b2) / 1)), transparent);
+      }
+      
+      @media (min-width: 640px) {
+        .fade-edges::before,
+        .fade-edges::after {
+          width: 2rem;
+        }
+      }
+      
+      @media (min-width: 1024px) {
+        .fade-edges::before,
+        .fade-edges::after {
+          width: 2.5rem;
+        }
+      }
+      
+      .fade-edges-custom::before {
+        background: linear-gradient(to right, var(--fade-bg, hsl(var(--b2))), transparent);
+      }
+      
+      .fade-edges-custom::after {
+        background: linear-gradient(to left, var(--fade-bg, hsl(var(--b2))), transparent);
+      }
+    </style>
+  </head>
+
+  <body class="min-h-screen bg-base-200">
+    <div class="container mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
+      
+      <header class="mb-16">
+        <div class="flex items-center gap-3 mb-3">
+          <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight">
+            daisy-dual-range
+          </h1>
+          <span class="badge badge-sm badge-neutral">v0.1.0</span>
+        </div>
+        <p class="text-base text-base-content/60 mb-4 max-w-xl">
+          Framework-agnostic dual-range slider with DaisyUI styling powered by noUiSlider
+        </p>
+        <div class="flex gap-2 mb-6">
+          <span class="text-xs px-2 py-1 bg-base-content/5 text-base-content/60 rounded">TypeScript</span>
+          <span class="text-xs px-2 py-1 bg-base-content/5 text-base-content/60 rounded">DaisyUI</span>
+          <span class="text-xs px-2 py-1 bg-base-content/5 text-base-content/60 rounded">noUiSlider</span>
+        </div>
+        
+        <div class="bg-base-content/[0.03] border border-base-content/5 rounded-lg p-4">
+          <h2 class="text-sm font-medium text-base-content/70 mb-3">Installation</h2>
+          <div class="space-y-2">
+            <div class="relative group">
+              <code class="block text-xs bg-base-content/5 px-3 py-2 pr-10 rounded font-mono text-base-content/80">npm install daisy-dual-range nouislider</code>
+              <button 
+                class="copy-btn absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded hover:bg-base-content/10 active:scale-95 transition-all opacity-60 hover:opacity-100"
+                data-copy-text="npm install daisy-dual-range nouislider"
+                title="Copy to clipboard"
+                aria-label="Copy to clipboard"
+              >
+                <svg class="w-4 h-4 text-base-content/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                </svg>
+              </button>
+            </div>
+            <div class="text-xs text-base-content/50 mt-2">
+              Then import the CSS and initialize:
+            </div>
+            <div>
+              <pre class="text-xs bg-base-content/5 px-3 py-2 rounded font-mono text-base-content/80 overflow-x-auto"><code>import 'nouislider/dist/nouislider.css';
+import { createDaisyDualRange } from 'daisy-dual-range';
+import 'daisy-dual-range/style.css';</code></pre>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-base-content/70 mb-2">Theme</label>
+        <div class="relative fade-edges">
+          <div class="overflow-x-auto scrollbar-hide -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 py-1" style="scrollbar-width: none; -ms-overflow-style: none;">
+            <div class="flex gap-1 sm:gap-1.5 min-w-max pb-1">
+              <button data-theme="light" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation" data-active="true">light</button>
+              <button data-theme="dark" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">dark</button>
+              <button data-theme="cupcake" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">cupcake</button>
+              <button data-theme="bumblebee" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">bumblebee</button>
+              <button data-theme="emerald" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">emerald</button>
+              <button data-theme="corporate" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">corporate</button>
+              <button data-theme="synthwave" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">synthwave</button>
+              <button data-theme="retro" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">retro</button>
+              <button data-theme="cyberpunk" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">cyberpunk</button>
+              <button data-theme="valentine" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">valentine</button>
+              <button data-theme="halloween" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">halloween</button>
+              <button data-theme="garden" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">garden</button>
+              <button data-theme="forest" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">forest</button>
+              <button data-theme="aqua" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">aqua</button>
+              <button data-theme="lofi" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">lofi</button>
+              <button data-theme="pastel" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">pastel</button>
+              <button data-theme="fantasy" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">fantasy</button>
+              <button data-theme="wireframe" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">wireframe</button>
+              <button data-theme="black" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">black</button>
+              <button data-theme="luxury" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">luxury</button>
+              <button data-theme="dracula" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">dracula</button>
+              <button data-theme="cmyk" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">cmyk</button>
+              <button data-theme="autumn" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">autumn</button>
+              <button data-theme="business" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">business</button>
+              <button data-theme="acid" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">acid</button>
+              <button data-theme="lemonade" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">lemonade</button>
+              <button data-theme="night" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">night</button>
+              <button data-theme="coffee" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">coffee</button>
+              <button data-theme="winter" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">winter</button>
+              <button data-theme="dim" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">dim</button>
+              <button data-theme="nord" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">nord</button>
+              <button data-theme="sunset" class="theme-tag px-2.5 py-1 sm:px-3 text-xs font-medium rounded-full border transition-all duration-200 whitespace-nowrap bg-base-100 border-base-content/20 active:scale-95 touch-manipulation">sunset</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card bg-base-100 border border-base-content/5 shadow-sm mb-12">
+        <div class="card-body p-8">
+          <div class="flex items-start justify-between gap-6 mb-8">
+            <div>
+              <h2 class="text-lg font-semibold mb-1">Price Range</h2>
+              <p class="text-sm text-base-content/50">Drag handles or enter values</p>
+            </div>
+            
+            <div class="w-40">
+              <label class="block text-xs font-medium text-base-content/50 mb-1.5">Color</label>
+              <div class="dropdown dropdown-end">
+                <div tabindex="0" role="button" class="btn btn-sm btn-ghost justify-between w-full bg-base-100 border border-base-content/10 hover:bg-base-content/5">
+                  <span id="color-label">primary</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+                <ul tabindex="0" class="dropdown-content z-[100] menu p-2 shadow-lg bg-base-100 border border-base-content/10 rounded-lg w-40 mt-1">
+                  <li><a data-color="primary" class="text-sm">primary</a></li>
+                  <li><a data-color="secondary" class="text-sm">secondary</a></li>
+                  <li><a data-color="accent" class="text-sm">accent</a></li>
+                  <li><a data-color="info" class="text-sm">info</a></li>
+                  <li><a data-color="success" class="text-sm">success</a></li>
+                  <li><a data-color="warning" class="text-sm">warning</a></li>
+                  <li><a data-color="error" class="text-sm">error</a></li>
+                  <li><a data-color="neutral" class="text-sm">neutral</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-base-content/[0.03] border border-base-content/5 rounded-lg px-6 py-4 mb-6">
+            <div class="text-xs font-medium text-base-content/50 mb-1">Selected Range</div>
+            <div class="text-2xl font-semibold tracking-tight">
+              <span id="label"></span>
+            </div>
+          </div>
+
+          <div id="slider" class="mb-8"></div>
+
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div>
+              <label class="block text-xs font-medium text-base-content/50 mb-1.5">Minimum</label>
+              <input id="minInput" type="number" placeholder="0" class="input input-sm input-bordered w-full bg-base-100 border-base-content/10" />
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-base-content/50 mb-1.5">Maximum</label>
+              <input id="maxInput" type="number" placeholder="1000" class="input input-sm input-bordered w-full bg-base-100 border-base-content/10" />
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-base-content/5">
+            <button id="randomize" class="btn btn-sm btn-ghost gap-2 text-base-content/60 hover:text-base-content">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z" />
+              </svg>
+              Randomize Values
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <footer class="text-center py-8 text-sm text-base-content/40">
+        <div class="flex justify-center gap-6 mb-3">
+          <a href="https://github.com/yourusername/daisy-dual-range" class="hover:text-base-content/70 transition-colors">GitHub</a>
+          <a href="https://www.npmjs.com/package/daisy-dual-range" class="hover:text-base-content/70 transition-colors">npm</a>
+          <a href="https://daisyui.com" class="hover:text-base-content/70 transition-colors">DaisyUI</a>
+        </div>
+        <p class="text-xs">Built with DaisyUI & noUiSlider</p>
+      </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/nouislider@15/dist/nouislider.min.js"></script>
+    <script src="../dist/index.iife.js"></script>
+    <script src="./demo.js"></script>
+  </body>
+</html>
