@@ -1,4 +1,4 @@
-# daisy-dual-range
+# <img src="https://danilo-znamerovszkij.github.io/daisy-dual-range/favicon.svg" width="24" /> daisy-dual-range
 
 [![npm](https://img.shields.io/npm/v/daisy-dual-range)](https://www.npmjs.com/package/daisy-dual-range)
 [![demo](https://img.shields.io/badge/demo-live-brightgreen)](https://danilo-znamerovszkij.github.io/daisy-dual-range)

@@ -58,7 +58,7 @@
   }
 
   const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
-  const themeButtons = document.querySelectorAll("[data-theme]");
+  const themeButtons = document.querySelectorAll("button[data-theme]");
   
   themeButtons.forEach(function (button) {
     const theme = button.getAttribute("data-theme");
