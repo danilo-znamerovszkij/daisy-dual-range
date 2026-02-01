@@ -135,5 +135,14 @@
     });
   });
 
+  const githubBadgeImg = document.querySelector(".github-link img");
+  if (githubBadgeImg) {
+    githubBadgeImg.addEventListener("load", function () {
+      if (this.naturalWidth > 30) {
+        this.style.display = "none";
+      }
+    });
+  }
+
   mount(currentColor);
 })();
